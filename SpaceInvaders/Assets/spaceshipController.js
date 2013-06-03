@@ -15,7 +15,7 @@ var n:int;
 
 function Start ()
 {
-	health = 1000;
+	health = 50;
 	shotsfired = 0;
 	shotshit = 0;
 	score = 0;

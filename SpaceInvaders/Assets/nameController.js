@@ -2,6 +2,7 @@
 
 static var username = "";
 var checkname: boolean = false;
+var style:GUISkin;
 
 function Start ()
 {
@@ -15,8 +16,8 @@ function Update ()
 
 function OnGUI()
 {
-	GUI.color = Color.green;	
-	
+	GUI.skin = style;
+	//b egin area
 	//Display Enter Name and TextField in the middle of the screen
 	GUI.Label(Rect((Screen.width/2)-100,Screen.height/2,100,30),"Enter Name:");
 	username = GUI.TextField(Rect(Screen.width/2,Screen.height/2,200,25),username,40);
@@ -37,4 +38,5 @@ function OnGUI()
 			}
 		}
 	}
+	//end area
 }

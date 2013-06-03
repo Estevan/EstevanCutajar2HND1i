@@ -1,4 +1,5 @@
 #pragma strict
+
 var laserSlot:Rigidbody;
 static var score:int;
 static var health:int; //static meaning the only one in the game
@@ -8,16 +9,19 @@ static var shotshit:int;
 var level:int;
 var spaceshipColours:Material[];
 
+var style:GUISkin;
 
 var n:int;
 
 function Start ()
 {
-	health = 10;
+	health = 1000;
 	shotsfired = 0;
 	shotshit = 0;
 	score = 0;
 	DontDestroyOnLoad(this.gameObject);
+	
+	this.renderer.material = spaceshipColours[0];
 }
 
 
@@ -40,15 +44,26 @@ function Update ()
 		Application.LoadLevel(8);
 	}
 	
-	var myAlienGenerator:alienGenerator;
-	myAlienGenerator=GameObject.FindGameObjectWithTag("swarm").GetComponent(alienGenerator);
-	
-	if(myAlienGenerator.aliencount==0)
+	if(n<6)
 	{
-		level = Application.loadedLevel;
-		n = level+1;
-		Application.LoadLevel(n);
-		print(n);
+		var myAlienGenerator:alienGenerator;
+		myAlienGenerator=GameObject.FindGameObjectWithTag("swarm").GetComponent(alienGenerator);
+	
+		if(myAlienGenerator.aliencount==0)
+		{
+			score = 0;
+			level = Application.loadedLevel;
+			n = level+1;
+			Application.LoadLevel(n);
+		}
+	}
+	else
+	{
+		if (laserController.bosshealth==0)
+		{
+			Destroy(GameObject.FindGameObjectWithTag("spaceship"));
+			Application.LoadLevel(9);
+		}
 	}
 }
 
@@ -57,13 +72,23 @@ function OnGUI()
 	var shotsmissed:int;
 	shotsmissed = shotsfired - shotshit;
 	
-	GUI.color = Color.cyan;
-	GUI.Label(Rect(10,0,100,25),"Score: "+score); //x,y,width label,height label
-	GUI.Label(Rect(200,0,100,25),"Health: "+health); //x,y,width label,height label
-	GUI.Label(Rect(375,0,100,25),"Shots Fired: "+shotsfired);
-	GUI.Label(Rect(500,0,100,25),"Shots Hit: "+shotshit);
-	GUI.Label(Rect(625,0,120,25),"Shots Missed: "+shotsmissed);	
-	GUI.Label(Rect(10,30,200,25),"Name: "+nameController.username);
+	GUI.skin = style;
+	GUILayout.BeginArea(Rect(0,0,1024,40));
+	GUILayout.BeginHorizontal();
+	GUILayout.Label("Name: "+nameController.username);
+	GUILayout.FlexibleSpace();
+	GUILayout.Label("Score: "+score);
+	GUILayout.FlexibleSpace();
+	GUILayout.Label("Health: "+health);
+	GUILayout.FlexibleSpace();
+	GUILayout.Label("Shots Fired: "+shotsfired);
+	GUILayout.FlexibleSpace();
+	GUILayout.Label("Shots Hit: "+shotshit);
+	GUILayout.FlexibleSpace();
+	GUILayout.Label("Shots Missed: "+shotsmissed);
+	GUILayout.FlexibleSpace();
+	GUILayout.EndHorizontal();
+	GUILayout.EndArea();
 }
 
 function OnTriggerEnter(other:Collider)

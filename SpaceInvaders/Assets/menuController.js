@@ -13,15 +13,25 @@ function Update () {
 
 function OnGUI()
 {
-	GUI.Label(Rect(0,0,logo.width,logo.height),logo);
+	GUI.skin = style;
 	
-	if(GUI.Button(Rect(logo.width/2,logo.height/2,100,25),"New Game"))
+	GUILayout.BeginArea(Rect(Screen.width/2-100, Screen.height/2-50, 200, 200));
+	
+	if (GUILayout.Button("New Game"))
 	{
 		Application.LoadLevel(7);
 	}
 	
-	if(GUI.Button(Rect(logo.width/2,logo.height*2,100,25),"Exit"))
+	if (GUILayout.Button("Help"))
+	{
+		Application.LoadLevel(9);
+	}
+	
+	if (GUILayout.Button("Exit"))
 	{
 		Application.Quit();
 	}
+	
+	GUILayout.EndArea();
+	
 }

@@ -27,6 +27,7 @@ function generateAliens(rows:int, columns:int)
 }
 
 function Start () {
+	aliencount = 0;
 	//create rows by columns which are then entered manually
 	generateAliens(rows,columns);
 }

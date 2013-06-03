@@ -1,6 +1,7 @@
 #pragma strict
 
 var laserSpeed:int;
+static var bosshealth:int=5;
 
 function Start () {
 
@@ -13,6 +14,8 @@ function Update ()
 
 function OnTriggerEnter(other:Collider)
 {
+
+	
 	if(other.gameObject.tag=="alien")
 	{
 		spaceshipController.score++;
@@ -25,6 +28,18 @@ function OnTriggerEnter(other:Collider)
 		alienGenerator.aliencount--;
 		
 	}
+	else 
+	{
+		if(other.gameObject.tag=="boss")
+		{
+			bosshealth--;
+			spaceshipController.score = spaceshipController.score + 5;
+			Destroy(this.gameObject);
+			spaceshipController.shotshit++;
+		}
+	
+	} 
+
 	
 }
 
